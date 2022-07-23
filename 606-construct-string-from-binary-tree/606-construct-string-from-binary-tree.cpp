@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    string result;
+    string tree2str(TreeNode* root) {
+        string res =  preOrder(root);
+        res.pop_back();
+        return res;
+    } 
+    
+    string preOrder(TreeNode *root)
+    {
+        if(root!=NULL)
+        {
+            if(result.empty())
+            {
+                result+= to_string(root->val);
+            } 
+            else 
+            {
+                result.push_back('(');
+                result+= to_string(root->val);
+            } 
+            if(root->left == NULL && root->right != NULL)
+            {
+                result+= "()";
+            } 
+            preOrder(root->left);
+            preOrder(root->right);
+            result.push_back(')');
+        }
+        
+        return result;
+    }
+};
