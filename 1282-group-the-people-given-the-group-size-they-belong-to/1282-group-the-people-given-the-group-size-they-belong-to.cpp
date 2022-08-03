@@ -5,29 +5,17 @@ public:
         vector<vector<int>>v;
         for(int i=0; i<groupSizes.size();i++)
         {
-            if(m.count(groupSizes[i]) == 0)
-                m.insert({groupSizes[i],{i}});
+            int key = groupSizes[i];
+            if(m.count(key) > 0)
+                m[key].push_back(i);
             else 
             {
-                vector<int>result = m[groupSizes[i]];
-                result.push_back(i);
-                m[groupSizes[i]] = result;
+                m[key] = vector<int>{i};
             }
-        } 
-        for(auto it = m.begin();it!=m.end();it++)
-        {
-            int s = it->first;
-            int i = 1;
-            vector<int>temp;
-            while(it->second.size() > i-1)
+            if(m[key].size() == key)
             {
-                temp.push_back(it->second[i-1]);
-                if(i%s == 0)
-                {
-                    v.push_back(temp);
-                    temp.clear();
-                }
-                i++;
+                v.push_back(m[key]);
+                m.erase(key);
             }
         } 
         return v;
