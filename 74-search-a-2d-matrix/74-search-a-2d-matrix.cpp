@@ -4,28 +4,24 @@ public:
         vector<int>result;
         int row = matrix[0].size();
         int column = matrix.size();
-        for(int i=0; i<column;i++)
-        {
-            for(int j = 0; j<row; j++)
-                result.push_back(matrix[i][j]);
-        }
         int l = 0;
-        int r = result.size()-1; 
+        int r = (row * column)-1; 
         bool flag = false;
         while(l<=r)
         {
             int mid = (l+r)/2;
-            if( result[mid] == target)
+            int i = mid / row;
+            int j = mid % row;
+            if(matrix[i][j] == target)
             {
                 flag = true;
                 break;
             } 
             
-            else if(result[mid]< target)
+            else if(matrix[i][j] < target)
                 l = mid+1;
             else 
                 r = mid-1;
-        
         }
         return flag;
     }
