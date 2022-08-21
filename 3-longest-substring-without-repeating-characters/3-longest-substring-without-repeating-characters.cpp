@@ -1,26 +1,25 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int currentSub = 0;
         int longestSub = 0;
-        map<int,int>m;
-        for(int i=0; i<s.size();i++)
+        int l = 0;
+        set<int>non;
+        int i = 0;
+        while(i<s.size())
         {
-            if(m.count(s[i]) == 0)
+            //not found
+            if(non.find(s[i]) == non.end())
             {
-                currentSub++;
-                m.insert({s[i],i});
+                non.insert(s[i]);
+                longestSub = max(longestSub,i-l+1);
+                i++;
             }
             else 
             {
-                longestSub = max(longestSub,currentSub);
-                i = m[s[i]];
-                m.clear();
-                currentSub = 0;    
+                non.erase(s[l]);   
+                l++;
             }
-        
-        } 
-        longestSub = max(longestSub,currentSub);
+        }
         return longestSub;
     }
 };
