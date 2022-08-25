@@ -2,17 +2,18 @@ class Solution {
 public:
     int maxConsecutiveAnswers(string answerKey, int k) {
         int l = 0;
-        vector<int>H(26);
+        int trueAnswers = 0;
+        int falseAnswers = 0;
         int result = 0;
         for(int i=0; i<answerKey.size();i++)
         {
-            H[answerKey[i]-'A']++;
-            int maxx = *max_element(H.begin(),H.end());
+            answerKey[i] == 'T' ? ++trueAnswers : ++falseAnswers;
+            int maxx = max(trueAnswers,falseAnswers);
             if(i-l+1 - maxx <= k)
                 result = max(result,i-l+1);
             else 
             {
-                H[answerKey[l]-'A']--;
+                answerKey[l] == 'T' ? --trueAnswers : --falseAnswers;
                 l++;
             }
         }
