@@ -33,7 +33,7 @@ public:
             }
             else
             {
-                st.push(convertToInt(c));
+                st.push(stoi(c));
             }                    
         } 
         return st.top();
@@ -47,20 +47,5 @@ public:
         st.pop();
         return res;
     }
-    int convertToInt(string s)
-    {
-        int sum = 0;
-        bool v = false;
-        if(s[0] == '-')
-            v = true;
-        for(int i=0; i<s.size();i++)
-        {
-            if(s[0] == '-' && i == 0)
-                continue;
-            sum += (s[i]-'0') * pow(10,s.size()-i-1);
-        }
-        if(v)
-            sum -= sum*2;
-        return sum;
-    }
+  
 };
