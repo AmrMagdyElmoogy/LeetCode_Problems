@@ -3,32 +3,45 @@ public:
     int evalRPN(vector<string>& tokens) {
         stack<int>st;
         int result= 0;
-        vector<int>elements(2);
+        int first,second;
+        first = second = 0;
         for(int i=0; i<tokens.size();i++)
         {
             string c = tokens[i];
             if(c == "+")
             {
-                elements = getFirstAndSecondElements(st);
-                result = elements[0] + elements[1];
+                first = st.top(); 
+                st.pop();
+                second = st.top();
+                st.pop();
+                result = second + first;
                 st.push(result);
             }
             else if(c == "-")
             {
-                elements = getFirstAndSecondElements(st);
-                result = elements[0] - elements[1];
+                first = st.top(); 
+                st.pop();
+                second = st.top();
+                st.pop();
+                result = second - first;
                 st.push(result);
             }
             else if(c == "*")
             {
-                elements = getFirstAndSecondElements(st);
-                result = elements[0] * elements[1];
+               first = st.top(); 
+                st.pop();
+                second = st.top();
+                st.pop();
+                result = second * first;
                 st.push(result);
             }
             else if(c == "/")
             {
-                elements = getFirstAndSecondElements(st);
-                result = floor(elements[0] / elements[1]);
+                first = st.top(); 
+                st.pop();
+                second = st.top();
+                st.pop();
+                result = floor(second / first);
                 st.push(result);
             }
             else
@@ -38,14 +51,4 @@ public:
         } 
         return st.top();
     }
-    
-    vector<int> getFirstAndSecondElements(stack<int>&st){
-        vector<int>res(2);
-        res[1] = st.top();
-        st.pop();
-        res[0] = st.top();
-        st.pop();
-        return res;
-    }
-  
 };
