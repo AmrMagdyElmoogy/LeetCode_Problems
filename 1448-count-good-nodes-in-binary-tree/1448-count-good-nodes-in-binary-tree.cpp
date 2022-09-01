@@ -13,20 +13,22 @@ class Solution {
 public:
     int good = 0;
     int goodNodes(TreeNode* root) {
-        priority_queue<int>q;
-        calculateGoodNotes(root,q);
+        int maxx = INT_MIN;
+        calculateGoodNotes(root,maxx);
         return good;
     }  
     
-    void calculateGoodNotes(TreeNode *root, priority_queue<int>q)
+    void calculateGoodNotes(TreeNode *root, int maxx)
     {
         if(root!=NULL)
         {
-            q.push(root->val);
-            if(q.top() == root->val)
+            if(maxx <= root->val)
+            {
+                maxx = root->val;
                 good++;
-            calculateGoodNotes(root->left,q);
-            calculateGoodNotes(root->right,q);
+            }
+            calculateGoodNotes(root->left,maxx);
+            calculateGoodNotes(root->right,maxx);
         }
     }
 };
