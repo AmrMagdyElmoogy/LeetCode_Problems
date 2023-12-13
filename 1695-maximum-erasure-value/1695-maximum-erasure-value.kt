@@ -1,6 +1,6 @@
 class Solution {
     fun maximumUniqueSubarray(nums: IntArray): Int {
-        val m = mutableMapOf<Int,Int>()
+        val m = hashMapOf<Int,Int>()
         var (left,sum) = 0 to 0
         var maximum = 0
         val size = nums.size
