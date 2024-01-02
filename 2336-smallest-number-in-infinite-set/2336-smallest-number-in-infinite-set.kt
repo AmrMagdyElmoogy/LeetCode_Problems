@@ -1,13 +1,10 @@
 class SmallestInfiniteSet() {
     private val list = MutableList(1001) { if (it > 0) 1 else 2 }
     fun popSmallest(): Int {
-        for (i in 0 until list.size) {
-            if (list[i] == 1) {
-                list[i] = 0
-                return i
-            }
-        }
-        return 0
+        val index = list.indexOfFirst{it == 1}
+        if(index != -1)
+            list[index] = 0
+        return index
     }
 
     fun addBack(num: Int) {
