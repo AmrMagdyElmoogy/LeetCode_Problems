@@ -1,6 +1,6 @@
 class SubrectangleQueries(rectangle: Array<IntArray>) {
     
-    val rect = rectangle.toMutableList()
+    val rect = rectangle
     fun updateSubrectangle(row1: Int, col1: Int, row2: Int, col2: Int, newValue: Int) {
         for(i in row1 .. row2){
             for(j in col1 .. col2){
