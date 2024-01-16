@@ -1,11 +1,8 @@
 import kotlin.random.Random
 class RandomizedSet() {
     val hashSet = hashSetOf<Int>()
-    val m = mutableMapOf<Int, Int>()
-
     fun insert(`val`: Int): Boolean {
-        return if (!m.containsKey(`val`)) {
-            m[`val`] = 1
+        return if (!hashSet.contains(`val`)) {
             hashSet.add(`val`)
             true
         } else {
@@ -14,8 +11,7 @@ class RandomizedSet() {
     }
 
     fun remove(`val`: Int): Boolean {
-        return if (m.containsKey(`val`)) {
-            m.remove(`val`)
+        return if (hashSet.contains(`val`)) {
             hashSet.remove(`val`)
             true
         } else {
