@@ -1,7 +1,7 @@
 class CustomStack(maxSize: Int) {
 
     private val size = maxSize
-    private val stack = MutableList(size) { 0 }
+    private val stack = IntArray(size) { 0 }
     private var cnt = -1
 
     fun push(x: Int) {
