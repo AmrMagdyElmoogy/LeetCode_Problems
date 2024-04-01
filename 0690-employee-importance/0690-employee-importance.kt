@@ -9,7 +9,8 @@
 
 class Solution {
     private val employeesInfoMap = hashMapOf<Int, Pair<Int, List<Int>>>()
-    private val visited = PriorityQueue<Int>()
+    private val visited = Stack<Int>()
+
 
     fun getImportance(employees: List<Employee?>, id: Int): Int {
         employees.forEach {
@@ -23,15 +24,15 @@ class Solution {
         val requiredEmployee = employeesInfoMap[id]!!
         var employeeImportance = requiredEmployee.first
         requiredEmployee.second.forEach {
-            visited.offer(it)
+            visited.push(it)
         }
 
         while (visited.isNotEmpty()) {
-            val head = visited.poll()!!
+            val head = visited.pop()!!
             val employee = employeesInfoMap[head]!!
             employeeImportance += employee.first
             employee.second.forEach {
-                visited.offer(it)
+                visited.push(it)
             }
         }
         return employeeImportance
