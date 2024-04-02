@@ -1,17 +1,12 @@
 class StockSpanner() {
-    private val list = mutableListOf<Int>()
+    private val stack = Stack<Pair<Int, Int>>()
     fun next(price: Int): Int {
-        list.add(price)
-        // 100 80 60 70 60 
-        val latest = list[list.size-1]
-        var cnt = 0
-        for(i in 0 until list.size){
-            if(list[i] <= latest)
-                cnt++
-            else
-                cnt = 0
+        var span = 1
+        while (stack.isNotEmpty() && stack.peek().first <= price) {
+            span += stack.pop().second
         }
-        return cnt
+        stack.push(price to span)
+        return span
     }
 }
 
