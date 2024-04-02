@@ -1,32 +1,28 @@
 class TopVotedCandidate(persons: IntArray, times: IntArray) {
-    private val leaderMap = TreeMap<Int, Int>() 
-    private val personVotes = mutableMapOf<Int, Int>() 
-    private var currentLeader = -1 
-    
+    private val leaders = TreeMap<Int, Int>()
+    private val personVotes = hashMapOf<Int, Int>()
+    private var maxVotes = 0
+    private var leader = -1
+
     init {
-        var maxVotes = 0 
-        var leader = -1 
-        
-    
         for (i in persons.indices) {
-      
-            val votes = personVotes.getOrDefault(persons[i], 0) + 1
-            personVotes[persons[i]] = votes
-            
-            if (votes >= maxVotes) {
-                maxVotes = votes
+            val vote = personVotes.getOrDefault(persons[i], 0) + 1
+            personVotes[persons[i]] = vote
+
+            if (vote >= maxVotes) {
+                maxVotes = vote
                 leader = persons[i]
             }
-     
-            leaderMap[times[i]] = leader
+
+            leaders[times[i]] = leader
         }
     }
-    
+
     fun q(t: Int): Int {
-        val time = leaderMap.floorKey(t)
-        return leaderMap[time] ?: -1 
+        return leaders[leaders.floorKey(t)] ?: -1
     }
 }
+
 /**
  * Your TopVotedCandidate object will be instantiated and called as such:
  * var obj = TopVotedCandidate(persons, times)
