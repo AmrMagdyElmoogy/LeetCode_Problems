@@ -1,46 +1,48 @@
-import java.util.*
+class Twitter() {
+    private val followers = hashMapOf<Int, MutableSet<Int>>()
+    private val tweets = hashMapOf<Int, MutableList<Tweet>>()
+    private var timeStamp = 0
 
-class Twitter {
-    private val followers: MutableMap<Int, MutableSet<Int>> = mutableMapOf() // userId -> Set of followerIds
-    private val tweets: MutableMap<Int, MutableList<Tweet>> = mutableMapOf() // userId -> List of tweets
-
-    private var timestamp = 0
-
-    data class Tweet(val tweetId: Int, val timestamp: Int)
+    data class Tweet(val id: Int, val time: Int) : Comparable<Tweet> {
+        override fun compareTo(other: Tweet): Int {
+            return other.time.compareTo(this.time)
+        }
+    }
 
     fun postTweet(userId: Int, tweetId: Int) {
-        tweets.putIfAbsent(userId, mutableListOf())
-        tweets[userId]?.add(Tweet(tweetId, timestamp++))
+        val tweet = tweets.getOrDefault(userId, mutableListOf())
+        tweet.add(Tweet(tweetId, timeStamp++))
+        tweets[userId] = tweet 
     }
 
     fun getNewsFeed(userId: Int): List<Int> {
-        val feed = PriorityQueue<Tweet> { a, b -> b.timestamp - a.timestamp }
+        val getLatestTweets = PriorityQueue<Tweet>()
         val followees = followers.getOrDefault(userId, mutableSetOf())
-        followees.add(userId) 
 
-        followees.forEach { followeeId ->
-            tweets.getOrDefault(followeeId, mutableListOf()).forEach { tweet ->
-                feed.offer(tweet)
+        followees.add(userId)
+
+        followees.forEach { followId ->
+            val tweetOfUserId = tweets.getOrDefault(followId, mutableListOf())
+            tweetOfUserId.forEach {
+                getLatestTweets.offer(it)
             }
         }
 
-        val newsFeed = mutableListOf<Int>()
+        val result = mutableListOf<Int>()
         var count = 0
-        while (!feed.isEmpty() && count < 10) {
-            newsFeed.add(feed.poll().tweetId)
+        while (getLatestTweets.isNotEmpty() && count < 10) {
+            result.add(getLatestTweets.poll().id)
             count++
         }
-
-        return newsFeed
+        return result
     }
 
- 
     fun follow(followerId: Int, followeeId: Int) {
-        followers.putIfAbsent(followerId, mutableSetOf())
-        followers[followerId]?.add(followeeId)
+        val followee = followers.getOrDefault(followerId, mutableSetOf())
+        followee.add(followeeId)
+        followers[followerId] = followee
     }
 
- 
     fun unfollow(followerId: Int, followeeId: Int) {
         followers[followerId]?.remove(followeeId)
     }
