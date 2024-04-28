@@ -1,22 +1,24 @@
 class KthLargest(val k: Int, nums: IntArray) {
 
-    private val sortedList = nums.sorted().toMutableList()
-    fun add(`val`: Int): Int {
-        var flag = false
-        run {
-            sortedList.forEachIndexed { index, value ->
-                if (`val` <= value) {
-                    sortedList.add(index, `val`)
-                    flag = true
-                    return@run
-                }
-            }
+    private val queue = PriorityQueue<Int>()
+
+    init {
+        nums.forEach {
+            queue.offer(it)
         }
-        if (!flag)
-            sortedList.add(`val`)
-        return sortedList[sortedList.size - k]
+        while (queue.size > k) {
+            queue.poll()
+        }
+    }
+
+    fun add(`val`: Int): Int {
+        queue.offer(`val`)
+        while (queue.size > k)
+            queue.poll()
+        return queue.peek()
     }
 }
+
 
 /**
  * Your KthLargest object will be instantiated and called as such:
